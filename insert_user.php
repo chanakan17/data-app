@@ -18,15 +18,24 @@ if ($password !== $confirm_password) {
   die("❌ รหัสผ่านไม่ตรงกัน");
 }
 
-// เข้ารหัสรหัสผ่านด้วย MD5 (ไม่ปลอดภัยมากนัก แต่ตามคำขอ)
-$hashed_password = md5($password);
+// ตรวจสอบว่าอีเมลซ้ำหรือไม่
+$sql_check = "SELECT id FROM users WHERE email = ?";
+$stmt_check = $conn->prepare($sql_check);
+$stmt_check->bind_param("s", $email);
+$stmt_check->execute();
+$stmt_check->store_result();
 
-// เตรียมคำสั่ง SQL
+if ($stmt_check->num_rows > 0) {
+  // ถ้าเจออีเมลนี้แล้ว ให้แจ้งเตือนและหยุด
+  die("❌ อีเมลนี้ถูกใช้งานแล้ว กรุณาใช้เมลอื่น");
+}
+$stmt_check->close();
+
+// เพิ่มข้อมูลผู้ใช้ใหม่
 $sql = "INSERT INTO users (email, username, birthday, password) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssss", $email, $username, $birthday, $hashed_password);
+$stmt->bind_param("ssss", $email, $username, $birthday, $password);
 
-// ดำเนินการเพิ่มผู้ใช้
 if ($stmt->execute()) {
   echo "✅ เพิ่มผู้ใช้เรียบร้อยแล้ว<br>";
   echo '<a href="add_user.html">เพิ่มผู้ใช้อีก</a> | <a href="show_users.php">ดูรายชื่อทั้งหมด</a>';

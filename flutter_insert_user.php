@@ -38,13 +38,13 @@ if ($check_stmt->num_rows > 0) {
 }
 $check_stmt->close();
 
-// เข้ารหัสรหัสผ่าน (แนะนำเปลี่ยนจาก md5 เป็น password_hash เพื่อความปลอดภัย)
-$hashed_password = md5($password);
+// **ไม่เข้ารหัสรหัสผ่าน เก็บ plaintext เลย**
+$plain_password = $password;
 
 // เพิ่มข้อมูลผู้ใช้
 $sql = "INSERT INTO users (email, username, birthday, password) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssss", $email, $username, $birthday, $hashed_password);
+$stmt->bind_param("ssss", $email, $username, $birthday, $plain_password);
 
 if ($stmt->execute()) {
   echo json_encode(["success" => true, "message" => "✅ เพิ่มผู้ใช้เรียบร้อยแล้ว"]);
