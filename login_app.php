@@ -1,8 +1,10 @@
 <?php
 require "db_config.php";
 
+header("Content-Type: application/json; charset=UTF-8");
+
 if (!$conn) {
-    echo json_encode("Connection error");
+    echo json_encode(["status" => "Connection error"]);
     exit;
 }
 
@@ -10,11 +12,10 @@ $email = $_POST['email'] ?? null;
 $password = $_POST['password'] ?? null;
 
 if (!$email || !$password) {
-    echo json_encode("Missing email or password");
+    echo json_encode(["status" => "Missing email or password"]);
     exit;
 }
 
-// ไม่เข้ารหัสรหัสผ่าน
 $plain_password = $password;
 
 $sql = "SELECT * FROM users WHERE email = ? AND password = ?";
@@ -24,8 +25,12 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
-    echo json_encode("Success");
+    $user = $result->fetch_assoc();
+    echo json_encode([
+        "status" => "Success",
+        "id" => $user['id'] // 👈 ส่ง id กลับไปให้ Flutter
+    ]);
 } else {
-    echo json_encode("Error");
+    echo json_encode(["status" => "Error"]);
 }
 ?>
