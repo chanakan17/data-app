@@ -37,5 +37,23 @@ if ($conn->query($sql_create_table) === TRUE) {
   echo "❌ สร้างตาราง users ไม่สำเร็จ: " . $conn->error . "<br>";
 }
 
+$sql_create_scores = "
+CREATE TABLE IF NOT EXISTS game_scores (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  game_name VARCHAR(50) NOT NULL, -- เพิ่มตรงนี้
+  game_title VARCHAR(50) NOT NULL,
+  score INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+";
+
+if ($conn->query($sql_create_scores) === TRUE) {
+  echo "✅ สร้างตาราง game_scores เรียบร้อย<br>";
+} else {
+  echo "❌ สร้างตาราง game_scores ไม่สำเร็จ: " . $conn->error . "<br>";
+}
+
 $conn->close();
 ?>
