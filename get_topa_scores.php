@@ -1,37 +1,33 @@
 <?php
 include 'db_config.php';
-header('Content-Type: application/json; charset=utf-8');
 
-$sql = "
-SELECT *
-FROM (
-    SELECT 
-        gs.id, 
-        gs.game_title, 
-        gs.score, 
-        u.username,
-        ROW_NUMBER() OVER (PARTITION BY gs.game_title ORDER BY gs.score DESC) AS rank_pos
-    FROM game_scores gs
-    JOIN users u ON gs.user_id = u.id
-) ranked
-WHERE rank_pos <= 3
-ORDER BY game_title, rank_pos
-";
+$data = [];
+
+// ดึงคะแนน top 3 ของแต่ละเกม
+$sql = "SELECT gs.user_id, u.username, gs.game_name, gs.game_title, gs.score, gs.play_time_str, gs.created_at
+        FROM game_scores gs
+        JOIN users u ON gs.user_id = u.id
+        ORDER BY gs.game_name, gs.score DESC, gs.created_at ASC";
 
 $result = $conn->query($sql);
 
-$scores = [];
 while ($row = $result->fetch_assoc()) {
-    $game = $row['game_title'];
-    if (!isset($scores[$game])) {
-        $scores[$game] = [];
+    $gameName = $row['game_name'];   // ชื่อเกม
+    if (!isset($data[$gameName])) {
+        $data[$gameName] = [];
     }
-    $scores[$game][] = [
-        "username" => $row["username"],
-        "score" => (int)$row["score"],
-        "rank" => (int)$row["rank_pos"]
-    ];
+
+    // เก็บเฉพาะ top 3
+    if (count($data[$gameName]) < 3) {
+        $data[$gameName][] = [
+            "username" => $row['username'],
+            "category" => $row['game_title'],
+            "score" => (int)$row['score'],
+            "time" => $row['play_time_str']
+        ];
+    }
 }
 
-echo json_encode($scores, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+echo json_encode($data, JSON_UNESCAPED_UNICODE);
+$conn->close();
 ?>

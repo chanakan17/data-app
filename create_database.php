@@ -41,9 +41,10 @@ $sql_create_scores = "
 CREATE TABLE IF NOT EXISTS game_scores (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
-  game_name VARCHAR(50) NOT NULL, -- เพิ่มตรงนี้
+  game_name VARCHAR(50) NOT NULL,
   game_title VARCHAR(50) NOT NULL,
   score INT NOT NULL,
+  play_time_str VARCHAR(20) DEFAULT '',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
