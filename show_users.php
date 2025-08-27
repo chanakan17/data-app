@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
 include 'db_config.php';
 
 $result = $conn->query("SELECT * FROM users ORDER BY id DESC");
