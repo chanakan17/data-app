@@ -3,21 +3,21 @@ include 'db_config.php';
 
 $data = [];
 
-// ดึงคะแนน top 3 ของแต่ละเกม
 $sql = "SELECT gs.user_id, u.username, gs.game_name, gs.game_title, gs.score, gs.play_time_str, gs.created_at
         FROM game_scores gs
         JOIN users u ON gs.user_id = u.id
-        ORDER BY gs.game_name, gs.score DESC, gs.created_at ASC";
+        ORDER BY gs.game_name, gs.score DESC, 
+                 STR_TO_DATE(gs.play_time_str, '%i:%s:%f') ASC,
+                 gs.created_at ASC";
 
 $result = $conn->query($sql);
 
 while ($row = $result->fetch_assoc()) {
-    $gameName = $row['game_name'];   // ชื่อเกม
+    $gameName = $row['game_name'];
     if (!isset($data[$gameName])) {
         $data[$gameName] = [];
     }
 
-    // เก็บเฉพาะ top 3
     if (count($data[$gameName]) < 3) {
         $data[$gameName][] = [
             "username" => $row['username'],
