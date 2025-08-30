@@ -1,11 +1,4 @@
 <?php
-session_start();
-
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("Location: login.php");
-    exit;
-}
-
 include 'db_config.php';
 
 $sql = "SELECT gs.id, u.username, gs.game_name, gs.game_title, gs.score, gs.play_time_str, gs.created_at

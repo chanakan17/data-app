@@ -3,11 +3,6 @@ require "db_config.php";
 
 header("Content-Type: application/json; charset=UTF-8");
 
-if (!$conn) {
-    echo json_encode(["status" => "Connection error"]);
-    exit;
-}
-
 $email = $_POST['email'] ?? null;
 $password = $_POST['password'] ?? null;
 

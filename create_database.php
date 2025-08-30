@@ -56,5 +56,38 @@ if ($conn->query($sql_create_scores) === TRUE) {
   echo "❌ สร้างตาราง game_scores ไม่สำเร็จ: " . $conn->error . "<br>";
 }
 
+$sql_create_categories = "
+CREATE TABLE IF NOT EXISTS categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+";
+
+if ($conn->query($sql_create_categories) === TRUE) {
+  echo "✅ สร้างตาราง categories เรียบร้อย<br>";
+} else {
+  echo "❌ สร้างตาราง categories ไม่สำเร็จ: " . $conn->error . "<br>";
+}
+
+// ตาราง dictionary
+$sql_create_dictionary = "
+CREATE TABLE IF NOT EXISTS dictionary (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  word VARCHAR(100) NOT NULL,
+  meaning VARCHAR(255) NOT NULL,
+  image VARCHAR(255) DEFAULT '',
+  category_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+";
+
+if ($conn->query($sql_create_dictionary) === TRUE) {
+  echo "✅ สร้างตาราง dictionary เรียบร้อย<br>";
+} else {
+  echo "❌ สร้างตาราง dictionary ไม่สำเร็จ: " . $conn->error . "<br>";
+}
+
 $conn->close();
 ?>

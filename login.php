@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'db_config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -17,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($row["password"] == md5($password)) {
             $_SESSION["loggedin"] = true;
             $_SESSION["username"] = $username;
-            header("Location: home.php");
+            header("Location: page.php");
             exit;
         } else {
             $error = "รหัสผ่านไม่ถูกต้อง!";
