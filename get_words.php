@@ -32,7 +32,7 @@ $words = [];
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if (!empty($row['image'])) {
-           $row['image_url'] = "http://192.168.1.112/dataweb/" . $row['image'];
+           $row['image_url'] = "http://192.168.1.147/dataweb/" . $row['image'];
         } else {
             $row['image_url'] = "";
         }
