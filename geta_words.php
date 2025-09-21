@@ -35,7 +35,7 @@ $words = [];
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $row['image_url'] = !empty($row['image'])
-            ? "http://192.168.1.147/dataweb/" . $row['image']
+            ? "http://192.168.1.109/dataweb/" . $row['image']
             : "";
         $words[] = $row;
     }
