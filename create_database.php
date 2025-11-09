@@ -89,5 +89,22 @@ if ($conn->query($sql_create_dictionary) === TRUE) {
   echo "❌ สร้างตาราง dictionary ไม่สำเร็จ: " . $conn->error . "<br>";
 }
 
+$sql_create_user_profiles = "
+CREATE TABLE IF NOT EXISTS user_profiles (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  avatar VARCHAR(255) DEFAULT '',
+  selected_image INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+";
+
+if ($conn->query($sql_create_user_profiles) === TRUE) {
+  echo "✅ สร้างตาราง user_profiles เรียบร้อย<br>";
+} else {
+  echo "❌ สร้างตาราง user_profiles ไม่สำเร็จ: " . $conn->error . "<br>";
+}
+
 $conn->close();
 ?>
