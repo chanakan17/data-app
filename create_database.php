@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "flutter_app_db";
+$host = " localhost";
+$user = "chontun_data_app";
+$pass = "HXz2dWJQGSkQKeM";
+$db = "data_app";
 
 $conn = new mysqli($host, $user, $pass);
 $conn->set_charset("utf8");

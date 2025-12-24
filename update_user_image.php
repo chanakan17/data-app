@@ -1,11 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
-// --- ส่วนเชื่อมต่อ Database (ใส่ตรงนี้แทน include db.php) ---
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "flutter_app_db"; 
+$host = " localhost:3306";
+$user = "chontun_data_app";
+$pass = "HXz2dWJQGSkQKeM";
+$db = "data_app";
 
 $conn = new mysqli($host, $user, $pass, $db);
 $conn->set_charset("utf8");
@@ -14,9 +13,6 @@ if ($conn->connect_error) {
     echo json_encode(['success' => false, 'error' => 'DB Connection Failed: ' . $conn->connect_error]);
     exit;
 }
-// -----------------------------------------------------
-
-// 2. รับค่า (รองรับทั้ง POST Form และ JSON)
 $user_id = 0;
 $image_number = 0;
 
@@ -37,7 +33,6 @@ if ($user_id == 0) {
     exit;
 }
 
-// 3. ตรวจสอบว่ามี user_id นี้จริงไหม
 $stmtUser = $conn->prepare("SELECT id FROM users WHERE id = ?");
 $stmtUser->bind_param("i", $user_id);
 $stmtUser->execute();
@@ -49,14 +44,12 @@ if ($stmtUser->num_rows == 0) {
 }
 $stmtUser->close();
 
-// 4. ตรวจสอบว่ามีข้อมูลใน user_profiles หรือยัง
 $stmtCheck = $conn->prepare("SELECT id FROM user_profiles WHERE user_id = ?");
 $stmtCheck->bind_param("i", $user_id);
 $stmtCheck->execute();
 $stmtCheck->store_result();
 
 if ($stmtCheck->num_rows > 0) {
-    // A. ถ้ามีแล้ว -> ให้ UPDATE
     $stmtCheck->close();
     $stmtUpdate = $conn->prepare("UPDATE user_profiles SET selected_image = ? WHERE user_id = ?");
     $stmtUpdate->bind_param("ii", $image_number, $user_id);

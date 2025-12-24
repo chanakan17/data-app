@@ -1,22 +1,220 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <title>ลงทะเบียนผู้ใช้</title>
-</head>
-<body>
-  <h2>ลงทะเบียนผู้ใช้</h2>
-  <form method="post" action="insert_user.php">
-    อีเมล: <input type="email" name="email" required /><br /><br />
-    ชื่อผู้ใช้งาน: <input type="text" name="username" maxlength="20" required /><br /><br />
-    วันเกิด: <input type="date" name="birthday" required /><br /><br />
-    รหัสผ่าน: <input type="password" name="password" required /><br /><br />
-    ยืนยันรหัสผ่าน: <input type="password" name="confirm_password" required /><br /><br />
+<html lang="th">
 
-    <input type="submit" value="ยืนยัน" />
-    <input type="reset" value="ยกเลิก" />
-  </form>
-  <br />
-  <a href="show_users.php">ดูรายชื่อผู้ใช้ทั้งหมด</a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ลงทะเบียนผู้ใช้ใหม่</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style/homena.css">
+
+  <style>
+    body {
+      font-family: 'Kanit', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-wrapper {
+      display: flex;
+      justify-content: center;
+      padding-top: 80px;
+      padding-bottom: 50px;
+    }
+
+    .form-card {
+      background: #ffffff;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      position: relative;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-header h2 {
+      color: #2c3e50;
+      font-size: 1.8rem;
+      margin: 0 0 10px 0;
+    }
+
+    .form-header p {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+    }
+
+    .input-with-icon input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 2px solid #eee;
+      border-radius: 10px;
+      font-family: 'Kanit', sans-serif;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    .input-with-icon input:focus {
+      outline: none;
+      border-color: #38ef7d;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #11998e, #38ef7d);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'Kanit', sans-serif;
+      margin-bottom: 15px;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+    }
+
+    .btn-cancel {
+      width: 100%;
+      padding: 12px;
+      background: #f1f1f1;
+      color: #666;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: 'Kanit', sans-serif;
+      transition: background 0.2s;
+    }
+
+    .btn-cancel:hover {
+      background: #e0e0e0;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-link a {
+      color: #777;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-link a:hover {
+      color: #333;
+      text-decoration: underline;
+    }
+
+    .navbar {
+      z-index: 1000;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="bg"></div>
+
+    <div class="form-wrapper">
+      <div class="form-card">
+        <div class="form-header">
+          <h2><i class="fas fa-user-plus" style="color: #38ef7d;"></i> ลงทะเบียนผู้ใช้</h2>
+          <p>กรอกข้อมูลด้านล่างเพื่อสร้างบัญชีใหม่</p>
+        </div>
+
+        <form method="post" action="insert_user.php">
+
+          <div class="form-group">
+            <label>ชื่อผู้ใช้งาน</label>
+            <div class="input-with-icon">
+              <i class="fas fa-user"></i>
+              <input type="text" name="username" maxlength="20" required placeholder="ตั้งชื่อผู้ใช้งาน..." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>อีเมล</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" name="email" required placeholder="example@email.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>วันเกิด</label>
+            <div class="input-with-icon">
+              <i class="fas fa-calendar-alt"></i>
+              <input type="date" name="birthday" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>รหัสผ่าน</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" name="password" required placeholder="กำหนดรหัสผ่าน" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>ยืนยันรหัสผ่าน</label>
+            <div class="input-with-icon">
+              <i class="fas fa-key"></i>
+              <input type="password" name="confirm_password" required placeholder="ยืนยันรหัสผ่านอีกครั้ง" />
+            </div>
+          </div>
+
+          <input type="submit" value="ยืนยันการสมัคร" class="btn-submit" />
+          <input type="reset" value="ล้างข้อมูล" class="btn-cancel" />
+        </form>
+
+        <div class="back-link">
+          <a href="show_users.php"><i class="fas fa-arrow-left"></i> กลับไปหน้ารายชื่อผู้ใช้</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>

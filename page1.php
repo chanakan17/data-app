@@ -30,7 +30,24 @@
         <i class="fas fa-bars"></i> เมนู
     </div>
     <ul id="nav-menu">
-        <li><a href="index.php" class="active">หน้าหลัก</a></li>
+        <li><a href="page1.php" class="active">หน้าหลัก</a></li>
+        <li><a href="show_users.php">ผู้ใช้</a></li>
+        <li><a href="score.php">คะแนนผู้ใช้</a></li>
+        <li><a href="word.php">หมวดหมู่และคำศัพท์</a></li>
+
+        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+            <li>
+                <a href="logout.php" style="color: #ff4444;">
+                    <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+                </a>
+            </li>
+        <?php else: ?>
+            <li>
+                <a href="login.php" style="color: #00ff00;"> 
+                    <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+                </a>
+            </li>
+        <?php endif; ?>
     </ul>
 </div>
 
