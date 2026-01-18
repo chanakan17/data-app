@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php"); 
+    exit;
+}
+
 include 'db_config.php';
 $result = $conn->query("SELECT * FROM users ORDER BY id DESC");
 ?>
@@ -139,25 +144,30 @@ $result = $conn->query("SELECT * FROM users ORDER BY id DESC");
                 <i class="fas fa-bars"></i> เมนู
             </div>
             <ul id="nav-menu">
-                <li><a href="page1.php">หน้าหลัก</a></li>
-                <li><a href="show_users.php" class="active">ผู้ใช้</a></li>
-                <li><a href="score.php">คะแนนผู้ใช้</a></li>
-                <li><a href="word.php">หมวดหมู่และคำศัพท์</a></li>
+    <li><a href="page1.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'page1.php' ? 'active' : ''; ?>">หน้าหลัก</a></li>
 
-                <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
-                    <li>
-                        <a href="logout.php" style="color: #ff4444;">
-                            <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                        </a>
-                    </li>
-                <?php else: ?>
-                    <li>
-                        <a href="login.php" style="color: #00ff00;"> 
-                            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-                        </a>
-                    </li>
-                <?php endif; ?>
-            </ul>
+    <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+        
+        <li><a href="show_users.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'show_users.php' ? 'active' : ''; ?>">ผู้ใช้</a></li>
+        <li><a href="score.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'score.php' ? 'active' : ''; ?>">คะแนนผู้ใช้</a></li>
+        <li><a href="word.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'word.php' ? 'active' : ''; ?>">หมวดหมู่และคำศัพท์</a></li>
+
+        <li>
+            <a href="logout.php" style="color: #ff4444;">
+                <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+            </a>
+        </li>
+
+    <?php else: ?>
+        
+        <li>
+            <a href="login.php" style="color: #00ff00;"> 
+                <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+            </a>
+        </li>
+
+    <?php endif; ?>
+</ul>
         </div>
 
         <div class="content-wrapper">

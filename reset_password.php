@@ -18,7 +18,7 @@ if ($stmt->execute() && $stmt->affected_rows > 0) {
 } else {
     echo json_encode([
         'success' => false,
-        'message' => 'ไม่สามารถอัปเดตรหัสผ่านได้ หรือไม่พบอีเมลนี้ในระบบ'
+        'message' => 'ไม่สามารถอัปเดตรหัสผ่านได้ หรือตั้งรหัสผ่านเดิมไม่ได้'
     ]);
 }
 

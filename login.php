@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["username"] = $username;
             
             // ล็อกอินผ่านแล้ว ให้กระโดดไปหน้าหลัก
-            header("Location: page.php"); 
+            header("Location: page1.php"); 
             exit;
         } else {
             $error = "รหัสผ่านไม่ถูกต้อง!";
